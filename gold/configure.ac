@@ -531,6 +531,13 @@ fi
 # Link in zlib if we can.  This allows us to write compressed sections.
 AM_ZLIB
 
+dnl See if we can link against openssl
+AC_LIB_LINKFLAGS(crypto)
+if test "$HAVE_LIBCRYPTO" = "yes"; then
+   AC_DEFINE(HAVE_LIBCRYPTO, 1,
+	     [Can we use libcrypto?])
+fi
+
 dnl We have to check these in C, not C++, because autoconf generates
 dnl tests which have no type information, and current glibc provides
 dnl multiple declarations of functions like basename when compiling
