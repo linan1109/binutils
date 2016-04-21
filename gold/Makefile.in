@@ -72,13 +72,16 @@ DIST_COMMON = NEWS README ChangeLog $(srcdir)/Makefile.in \
 	$(srcdir)/Makefile.am $(top_srcdir)/configure \
 	$(am__configure_deps) $(srcdir)/config.in \
 	$(srcdir)/../mkinstalldirs $(top_srcdir)/po/Make-in ffsll.c \
-	ftruncate.c pread.c mremap.c yyscript.h yyscript.c \
+	mremap.c pread.c ftruncate.c yyscript.h yyscript.c \
 	$(srcdir)/../depcomp $(srcdir)/../ylwrap
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/../config/depstand.m4 \
 	$(top_srcdir)/../config/gettext-sister.m4 \
 	$(top_srcdir)/../config/lcmessage.m4 \
 	$(top_srcdir)/../config/lead-dot.m4 \
+	$(top_srcdir)/../config/lib-ld.m4 \
+	$(top_srcdir)/../config/lib-link.m4 \
+	$(top_srcdir)/../config/lib-prefix.m4 \
 	$(top_srcdir)/../config/nls.m4 \
 	$(top_srcdir)/../config/override.m4 \
 	$(top_srcdir)/../config/po.m4 \
@@ -110,11 +113,11 @@ am__objects_1 = archive.$(OBJEXT) attributes.$(OBJEXT) \
 	nacl.$(OBJEXT) object.$(OBJEXT) options.$(OBJEXT) \
 	output.$(OBJEXT) parameters.$(OBJEXT) plugin.$(OBJEXT) \
 	readsyms.$(OBJEXT) reduced_debug_output.$(OBJEXT) \
-	reloc.$(OBJEXT) resolve.$(OBJEXT) script-sections.$(OBJEXT) \
-	script.$(OBJEXT) stringpool.$(OBJEXT) symtab.$(OBJEXT) \
-	target.$(OBJEXT) target-select.$(OBJEXT) timer.$(OBJEXT) \
-	version.$(OBJEXT) workqueue.$(OBJEXT) \
-	workqueue-threads.$(OBJEXT)
+	reloc.$(OBJEXT) resolve.$(OBJEXT) rng.$(OBJEXT) \
+	script-sections.$(OBJEXT) script.$(OBJEXT) \
+	stringpool.$(OBJEXT) symtab.$(OBJEXT) target.$(OBJEXT) \
+	target-select.$(OBJEXT) timer.$(OBJEXT) version.$(OBJEXT) \
+	workqueue.$(OBJEXT) workqueue-threads.$(OBJEXT)
 am__objects_2 =
 am__objects_3 = yyscript.$(OBJEXT)
 am_libgold_a_OBJECTS = $(am__objects_1) $(am__objects_2) \
@@ -136,7 +139,8 @@ am_ld_new_OBJECTS = $(am__objects_4)
 ld_new_OBJECTS = $(am_ld_new_OBJECTS)
 am__DEPENDENCIES_2 = $(am__DEPENDENCIES_1) libgold.a $(LIBIBERTY) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_1)
 ld_new_LINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(ld_new_LDFLAGS) \
 	$(LDFLAGS) -o $@
 @GCC_TRUE@@NATIVE_LINKER_TRUE@am_ld1_OBJECTS = $(am__objects_4)
@@ -311,11 +315,13 @@ INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 INSTOBJEXT = @INSTOBJEXT@
 LDFLAGS = @LDFLAGS@
 LFS_CFLAGS = @LFS_CFLAGS@
+LIBCRYPTO = @LIBCRYPTO@
 LIBINTL = @LIBINTL@
 LIBINTL_DEP = @LIBINTL_DEP@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
 LN_S = @LN_S@
+LTLIBCRYPTO = @LTLIBCRYPTO@
 LTLIBOBJS = @LTLIBOBJS@
 MAINT = @MAINT@
 MAKEINFO = @MAKEINFO@
@@ -465,6 +471,7 @@ CCFILES = \
 	reduced_debug_output.cc \
 	reloc.cc \
 	resolve.cc \
+	rng.cc \
 	script-sections.cc \
 	script.cc \
 	stringpool.cc \
@@ -513,6 +520,7 @@ HFILES = \
 	reduced_debug_output.h \
 	reloc.h \
 	reloc-types.h \
+	rng.h \
 	script-c.h \
 	script-sections.h \
 	script.h \
@@ -544,7 +552,7 @@ libgold_a_LIBADD = $(LIBOBJS)
 sources_var = main.cc
 deps_var = $(TARGETOBJS) libgold.a $(LIBIBERTY) $(LIBINTL_DEP)
 ldadd_var = $(TARGETOBJS) libgold.a $(LIBIBERTY) $(GOLD_LDADD) $(LIBINTL) \
-	 $(THREADSLIB) $(LIBDL)
+	 $(THREADSLIB) $(LIBDL) $(LIBCRYPTO)
 
 ldflags_var = $(GOLD_LDFLAGS)
 ld_new_SOURCES = $(sources_var)
@@ -557,12 +565,12 @@ incremental_dump_DEPENDENCIES = $(TARGETOBJS) libgold.a $(LIBIBERTY) \
 	$(LIBINTL_DEP)
 
 incremental_dump_LDADD = $(TARGETOBJS) libgold.a $(LIBIBERTY) $(LIBINTL) \
-	 $(THREADSLIB) $(LIBDL)
+	 $(THREADSLIB) $(LIBDL) $(LIBCRYPTO)
 
 dwp_SOURCES = dwp.cc
 dwp_DEPENDENCIES = libgold.a $(LIBIBERTY) $(LIBINTL_DEP)
 dwp_LDADD = libgold.a $(LIBIBERTY) $(GOLD_LDADD) $(LIBINTL) $(THREADSLIB) \
-	$(LIBDL)
+	$(LIBDL) $(LIBCRYPTO)
 
 dwp_LDFLAGS = $(GOLD_LDFLAGS)
 POTFILES = $(CCFILES) $(HFILES) $(TARGETSOURCES)
@@ -803,6 +811,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/reduced_debug_output.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/reloc.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/resolve.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rng.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/script-sections.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/script.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sparc.Po@am__quote@

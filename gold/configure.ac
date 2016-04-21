@@ -515,6 +515,13 @@ fi
 AM_ZLIB
 AM_CONDITIONAL(HAVE_ZLIB, test "$ac_cv_header_zlib_h" = "yes")
 
+dnl See if we can link against openssl
+AC_LIB_LINKFLAGS(crypto)
+if test "$HAVE_LIBCRYPTO" = "yes"; then
+   AC_DEFINE(HAVE_LIBCRYPTO, 1,
+	     [Can we use libcrypto?])
+fi
+
 dnl We have to check these in C, not C++, because autoconf generates
 dnl tests which have no type information, and current glibc provides
 dnl multiple declarations of functions like basename when compiling

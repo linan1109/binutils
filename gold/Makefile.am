@@ -94,6 +94,7 @@ CCFILES = \
 	reduced_debug_output.cc \
 	reloc.cc \
 	resolve.cc \
+	rng.cc \
 	script-sections.cc \
 	script.cc \
 	stringpool.cc \
@@ -142,6 +143,7 @@ HFILES = \
 	reduced_debug_output.h \
 	reloc.h \
 	reloc-types.h \
+	rng.h \
 	script-c.h \
 	script-sections.h \
 	script.h \
@@ -176,7 +178,7 @@ libgold_a_LIBADD = $(LIBOBJS)
 sources_var = main.cc
 deps_var = $(TARGETOBJS) libgold.a $(LIBIBERTY) $(LIBINTL_DEP)
 ldadd_var = $(TARGETOBJS) libgold.a $(LIBIBERTY) $(GOLD_LDADD) $(LIBINTL) \
-	 $(THREADSLIB) $(LIBDL)
+	 $(THREADSLIB) $(LIBDL) $(LIBCRYPTO)
 ldflags_var = $(GOLD_LDFLAGS)
 
 ld_new_SOURCES = $(sources_var)
@@ -190,12 +192,12 @@ incremental_dump_SOURCES = incremental-dump.cc
 incremental_dump_DEPENDENCIES = $(TARGETOBJS) libgold.a $(LIBIBERTY) \
 	$(LIBINTL_DEP)
 incremental_dump_LDADD = $(TARGETOBJS) libgold.a $(LIBIBERTY) $(LIBINTL) \
-	 $(THREADSLIB) $(LIBDL)
+	 $(THREADSLIB) $(LIBDL) $(LIBCRYPTO)
 
 dwp_SOURCES = dwp.cc
 dwp_DEPENDENCIES = libgold.a $(LIBIBERTY) $(LIBINTL_DEP)
 dwp_LDADD = libgold.a $(LIBIBERTY) $(GOLD_LDADD) $(LIBINTL) $(THREADSLIB) \
-	$(LIBDL)
+	$(LIBDL) $(LIBCRYPTO)
 dwp_LDFLAGS = $(GOLD_LDFLAGS)
 
 # Use an explicit dependency for the bison generated header file.
