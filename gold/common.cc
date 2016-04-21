@@ -159,6 +159,8 @@ Symbol_table::allocate_commons(Layout* layout, Mapfile* mapfile)
 	sort_order = SORT_COMMONS_BY_ALIGNMENT_DESCENDING;
       else if (strcmp(order, "ascending") == 0)
 	sort_order = SORT_COMMONS_BY_ALIGNMENT_ASCENDING;
+      else if (strcmp(order, "random") == 0)
+	sort_order = SORT_COMMONS_RANDOMLY;
       else
 	{
 	  gold_error("invalid --sort-common argument: %s", order);
@@ -252,8 +254,13 @@ Symbol_table::do_allocate_commons_list(
     return;
 
   // Sort the common symbols.
-  std::sort(commons->begin(), commons->end(),
-	    Sort_commons<size>(this, sort_order));
+  if (sort_order == SORT_COMMONS_RANDOMLY)
+    {
+      this->RNG.shuffle(commons->begin(), commons->end());
+    }
+  else
+    std::sort(commons->begin(), commons->end(),
+              Sort_commons<size>(this, sort_order));
 
   // Place them in a newly allocated BSS section.
   elfcpp::Elf_Xword flags = elfcpp::SHF_WRITE | elfcpp::SHF_ALLOC;
