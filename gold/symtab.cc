@@ -565,7 +565,8 @@ Symbol_table::Symbol_table(unsigned int count,
   : saw_undefined_(0), offset_(0), table_(count), namepool_(),
     forwarders_(), commons_(), tls_commons_(), small_commons_(),
     large_commons_(), forced_locals_(), warnings_(),
-    version_script_(version_script), gc_(NULL), icf_(NULL)
+    version_script_(version_script), gc_(NULL), icf_(NULL),
+    RNG("Symbol_table")
 {
   namepool_.reserve(count);
 }

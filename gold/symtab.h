@@ -34,6 +34,7 @@
 #include "parameters.h"
 #include "stringpool.h"
 #include "object.h"
+#include "rng.h"
 
 namespace gold
 {
@@ -1355,7 +1356,8 @@ class Symbol_table
   {
     SORT_COMMONS_BY_SIZE_DESCENDING,
     SORT_COMMONS_BY_ALIGNMENT_DESCENDING,
-    SORT_COMMONS_BY_ALIGNMENT_ASCENDING
+    SORT_COMMONS_BY_ALIGNMENT_ASCENDING,
+    SORT_COMMONS_RANDOMLY
   };
 
   // COUNT is an estimate of how many symbols will be inserted in the
@@ -1951,6 +1953,11 @@ class Symbol_table
   const Version_script_info& version_script_;
   Garbage_collection* gc_;
   Icf* icf_;
+
+  // We need a reproducible RNG for "sorting" the common symbols randomly. Keep
+  // an RNG object here for now. This might need to be somewhere else
+  // eventually.
+  RandomNumberGenerator RNG;
 };
 
 // We inline get_sized_symbol for efficiency.
