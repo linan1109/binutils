@@ -1067,7 +1067,7 @@ class General_options
 
   DEFINE_optional_string(sort_common, options::TWO_DASHES, '\0', NULL,
 			 N_("Sort common symbols by alignment"),
-			 N_("[={ascending,descending,random}]"));
+			 N_("[={ascending,descending,random,random-reverse}]"));
 
   DEFINE_enum(sort_section, options::TWO_DASHES, '\0', "none",
 	      N_("Sort sections by name.  \'--no-text-reorder\'"

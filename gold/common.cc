@@ -160,6 +160,8 @@ Symbol_table::allocate_commons(Layout* layout, Mapfile* mapfile)
 	sort_order = SORT_COMMONS_BY_ALIGNMENT_ASCENDING;
       else if (strcmp(order, "random") == 0)
 	sort_order = SORT_COMMONS_RANDOMLY;
+      else if (strcmp(order, "random-reverse") == 0)
+	sort_order = SORT_COMMONS_RANDOMLY_REVERSE;
       else
 	{
 	  gold_error("invalid --sort-common argument: %s", order);
@@ -256,6 +258,11 @@ Symbol_table::do_allocate_commons_list(
   if (sort_order == SORT_COMMONS_RANDOMLY)
     {
       this->RNG.shuffle(commons->begin(), commons->end());
+    }
+  else if (sort_order == SORT_COMMONS_RANDOMLY_REVERSE)
+    {
+      this->RNG.shuffle(commons->begin(), commons->end());
+      std::reverse(commons->begin(), commons->end());
     }
   else
     std::sort(commons->begin(), commons->end(),
