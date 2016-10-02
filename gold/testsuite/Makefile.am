@@ -36,7 +36,7 @@ endif
 COMPILE1 = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 LINK1 = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(OPT_NO_PLUGINS) \
-	$(AM_LDFLAGS) $(LDFLAGS) -o $@
+	$(AM_LDFLAGS) $(LDFLAGS) -Wl,--random-seed=42  -o $@
 CXXCOMPILE1 = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 CXXLINK1 = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(OPT_NO_PLUGINS) \
@@ -107,7 +107,7 @@ libgoldtest_a_SOURCES = test.cc testmain.cc testfile.cc
 DEPENDENCIES = \
 	libgoldtest.a ../libgold.a ../../libiberty/libiberty.a $(LIBINTL_DEP)
 LDADD = libgoldtest.a ../libgold.a ../../libiberty/libiberty.a $(LIBINTL) \
-	$(THREADSLIB) $(LIBDL) $(ZLIB)
+	$(THREADSLIB) $(LIBDL) $(ZLIB) $(LIBCRYPTO)
 
 
 # The unittests themselves
