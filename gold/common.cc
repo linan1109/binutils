@@ -332,7 +332,7 @@ Symbol_table::do_allocate_commons_list(
     {
       Symbol* sym = *p;
       if (sym == NULL)
-	break;
+	continue;
 
       // Because we followed forwarding symbols above, but we didn't
       // do it reliably before adding symbols to the list, it is
