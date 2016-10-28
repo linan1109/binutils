@@ -102,7 +102,9 @@ public:
     typename std::iterator_traits<RandomIt>::difference_type i, n;
     n = last - first;
     for (i = n-1; i > 0; --i) {
-      std::swap(first[i], first[Random(i + 1)]);
+      size_t j = Random(i + 1);
+      if (j < i)
+        std::swap(first[j], first[i]);
     }
   }
 };
