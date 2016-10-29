@@ -99,10 +99,10 @@ public:
    */
   template<class RandomIt>
   void shuffle(RandomIt first, RandomIt last) {
-    typename std::iterator_traits<RandomIt>::difference_type i, n;
+    typename std::iterator_traits<RandomIt>::difference_type i, j, n;
     n = last - first;
     for (i = n-1; i > 0; --i) {
-      size_t j = Random(i + 1);
+      j = Random(i + 1);
       if (j < i)
         std::swap(first[j], first[i]);
     }
