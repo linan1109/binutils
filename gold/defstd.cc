@@ -120,6 +120,54 @@ const Define_symbol_in_section in_section[] =
     false,			// offset_is_from_end
     true			// only_if_ref
   },
+  {
+    "__rando_plt_start",	// name
+    ".plt",		// output_section
+    0,				// value
+    0,				// size
+    elfcpp::STT_NOTYPE,		// type
+    elfcpp::STB_GLOBAL,		// binding
+    elfcpp::STV_HIDDEN,		// visibility
+    0,				// nonvis
+    false,			// offset_is_from_end
+    true			// only_if_ref
+  },
+  {
+    "__rando_plt_end",	// name
+    ".plt",		// output_section
+    0,				// value
+    0,				// size
+    elfcpp::STT_NOTYPE,		// type
+    elfcpp::STB_GLOBAL,		// binding
+    elfcpp::STV_HIDDEN,		// visibility
+    0,				// nonvis
+    true,			// offset_is_from_end
+    true			// only_if_ref
+  },
+  {
+    "__rando_textrap_start",	// name
+    ".textrap",		// output_section
+    0,				// value
+    0,				// size
+    elfcpp::STT_NOTYPE,		// type
+    elfcpp::STB_GLOBAL,		// binding
+    elfcpp::STV_HIDDEN,		// visibility
+    0,				// nonvis
+    false,			// offset_is_from_end
+    true			// only_if_ref
+  },
+  {
+    "__rando_textrap_end",	// name
+    ".textrap",		// output_section
+    0,				// value
+    0,				// size
+    elfcpp::STT_NOTYPE,		// type
+    elfcpp::STB_GLOBAL,		// binding
+    elfcpp::STV_HIDDEN,		// visibility
+    0,				// nonvis
+    true,			// offset_is_from_end
+    true			// only_if_ref
+  },
 };
 
 const int in_section_count = sizeof in_section / sizeof in_section[0];
