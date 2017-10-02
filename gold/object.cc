@@ -373,6 +373,7 @@ Relobj::is_section_name_included(const char* name)
 	  && strstr(name, "personality"))
       || (is_prefix_of(".gnu.linkonce.d", name)
 	  && strstr(name, "personality"))
+      || (is_prefix_of(".textrap", name))
       || (is_prefix_of(".rodata", name)
 	  && strstr(name, "nptl_version")))
     {
