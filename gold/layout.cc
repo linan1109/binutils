@@ -4918,6 +4918,10 @@ Layout::set_dynamic_symbol_size(const Symbol_table* symtab)
 const Layout::Section_name_mapping Layout::section_name_mapping[] =
 {
   MAPPING_INIT(".text.", ".text"),
+  MAPPING_INIT(".textrap.", ".textrap"),
+  MAPPING_INIT_EXACT(".textrap", ".textrap"),
+  MAPPING_INIT(".tramp.", ".tramp"),
+  MAPPING_INIT_EXACT(".tramp", ".tramp"),
   MAPPING_INIT(".rodata.", ".rodata"),
   MAPPING_INIT(".data.rel.ro.local.", ".data.rel.ro.local"),
   MAPPING_INIT_EXACT(".data.rel.ro.local", ".data.rel.ro.local"),
